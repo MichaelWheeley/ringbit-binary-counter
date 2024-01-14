@@ -1,4 +1,4 @@
-let numberOfLEDs:uint8 = 40
+let numberOfLEDs:uint8 = 30
 
 function ShowNumber(i:number){
     let led: number = 0
