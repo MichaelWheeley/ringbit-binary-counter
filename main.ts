@@ -26,8 +26,8 @@ function ShowNumberUnused (i:number){
 }
 
 let strip: neopixel.Strip = neopixel.create(DigitalPin.P0, numberOfLEDs, NeoPixelMode.RGB)
-let i:number = 0
+let i:number = 0xffffffff
 basic.forever(function () {
-    ShowNumber(i++)
+    ShowNumber(i--)
     ////basic.pause(1)
 })
