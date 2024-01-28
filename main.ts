@@ -1,4 +1,23 @@
+enum Mode {
+    CountUp = 0,
+    CountDown,
+    AltUp,
+    AltDown
+}
+
 let numberOfLEDs:uint8 = 30
+
+function InitializeCounter(mode: Mode) {
+    if (mode == Mode.CountUp) {
+        return 0
+    }
+    else if (mode == Mode.CountDown) {
+        return 0xffffffff
+    }
+    else {
+        return 0x0
+    }
+}
 
 function ShowNumber(i:number){
     let led: number = 0
@@ -25,9 +44,48 @@ function ShowNumberUnused (i:number){
     strip.show()
 }
 
+let mode = Mode.AltDown
 let strip: neopixel.Strip = neopixel.create(DigitalPin.P0, numberOfLEDs, NeoPixelMode.RGB)
-let i:number = 0xffffffff
+let i: number = InitializeCounter(mode)
+
 basic.forever(function () {
-    ShowNumber(i--)
-    ////basic.pause(1)
+    if(mode == Mode.CountUp)
+    {
+        ShowNumber(i++)
+    }
+    else if (mode == Mode.CountDown)
+    {
+        ShowNumber(i--)
+    }
+    else if (mode == Mode.AltUp || mode == Mode.AltDown)
+    {
+        if(mode == Mode.AltUp)
+        {
+            i++
+            if (i > 3) i = 0
+        }
+        else if(mode == Mode.AltDown)
+        {
+            i--
+            if(i < 0) i = 3
+        }
+
+        switch(i)
+        {
+            case 0:
+                ShowNumber(0xeeeeeeee)
+                break
+            case 1:
+                ShowNumber(0xdddddddd)
+                break
+            case 2:
+                ShowNumber(0xbbbbbbbb)
+                break
+            case 3:
+                ShowNumber(0x77777777)
+                break
+        }
+       
+        basic.pause(250)
+    }
 })
